@@ -80,7 +80,7 @@
      </record>
 
 
-       <record id="return_days_stock" model="ir.ui.view">
+       <record id="return_stock" model="ir.ui.view">
         <field name="name">number of return days in stock</field>
         <field name="model">stock.picking</field>
         <field name="inherit_id" ref="stock.view_picking_form"/>
