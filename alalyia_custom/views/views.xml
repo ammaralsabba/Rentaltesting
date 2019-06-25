@@ -1,0 +1,272 @@
+<odoo>
+  <data>
+
+<!--   <record model="ir.ui.view" id="bh_vat.tree">-->
+<!--      <field name="name">VAT Code</field>-->
+<!--      <field name="model">vat.configuration</field>-->
+<!--      <field name="arch" type="xml">-->
+<!--        <tree>-->
+<!--          <field name="name"/>-->
+<!--          <field name="code_name"/>-->
+<!--          <field name="tax_id"/>-->
+<!--            <field name="tax_scope"/>-->
+<!--          <field name="description"/>-->
+<!--        </tree>-->
+<!--      </field>-->
+<!--    </record>-->
+
+<!--     <record model="ir.ui.view" id="bh_vat.tree_return">-->
+<!--      <field name="name">VAT Return</field>-->
+<!--      <field name="model">vat.return</field>-->
+<!--      <field name="arch" type="xml">-->
+<!--        <tree>-->
+<!--            <field name="name"/>-->
+<!--            <field name="category"/>-->
+<!--            <field name="date"/>-->
+<!--            <field name="reference"/>-->
+<!--            <field name="partner_id"/>-->
+<!--            <field name="account_id"/>-->
+<!--            <field name="vat_code_ref"/>-->
+<!--            <field name="tax_id"/>-->
+<!--            <field name="base_amount"/>-->
+<!--            <field name="tax_amount"/>-->
+<!--        </tree>-->
+<!--      </field>-->
+<!--    </record>-->
+
+
+<!--    <record model="ir.ui.view" id="bh_vat.filling">-->
+<!--      <field name="name">vat forms</field>-->
+<!--      <field name="model">vat_configuration</field>-->
+<!--      <field name="arch" type="xml">-->
+<!--        <form>-->
+<!--           <header>-->
+<!--          <button string="Print" class="oe_highlight" type="object"/>-->
+<!--          </header>-->
+
+<!--          <sheet>-->
+<!--            <div class="oe_title">-->
+<!--             <h1>-->
+<!--               <field name="name"/>-->
+<!--             </h1>-->
+<!--            </div>-->
+<!--          </sheet>-->
+<!--        </form>-->
+<!--      </field>-->
+<!--    </record>-->
+
+
+<!--      <record id="invoice_vat_code" model="ir.ui.view">-->
+<!--        <field name="name">invoice_vat</field>-->
+<!--        <field name="model">account.invoice</field>-->
+<!--        <field name="inherit_id" ref="account.invoice_form"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--         <xpath expr="//field[@name='invoice_line_tax_ids']" position="before">-->
+<!--                <field name="invoice_id" invisible="1"/>-->
+<!--                <field name="vat_code_id" domain="[('tax_scope','=','sale')]" />-->
+<!--         </xpath>-->
+<!--        </field>-->
+<!--     </record>-->
+
+      <record id="return_days" model="ir.ui.view">
+        <field name="name">number of return days</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+         <xpath expr="//field[@name='confirmation_date']" position="after">
+                <field name="x_return_days"/>
+         </xpath>
+        </field>
+     </record>
+
+
+       <record id="return_days_stock" model="ir.ui.view">
+        <field name="name">number of return days in stock</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+         <xpath expr="//field[@name='date_done']" position="after">
+                <field name="x_return"/>
+               <field name="x_return_date"/>
+         </xpath>
+        </field>
+     </record>
+
+      <record id="return_days_stock" model="ir.ui.view">
+        <field name="name">number of return days in stock</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.view_move_line_tree"/>
+        <field name="arch" type="xml">
+         <xpath expr="//field[@name='product_id']" position="after">
+               <field name="x_returnable"/>
+                <field name="lot_id"/>
+         </xpath>
+        </field>
+     </record>
+
+      <record id="product_template_return" model="ir.ui.view">
+        <field name="name">Returnable Product</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+         <xpath expr="//div//field[@name='sale_ok']" position="before">
+               <div>
+                    <field name="x_returnable"/>
+                    <label for="x_returnable"/>
+               </div>
+         </xpath>
+        </field>
+     </record>
+
+
+
+
+<!--      <record id="stock_calender_view" model="ir.ui.view">-->
+<!--        <field name="name">Stock</field>-->
+<!--        <field name="model">stock.move.line</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <calender color=""-->
+<!--         <xpath expr="//field[@name='product_id']" position="after">-->
+<!--                <field name="lot_id"/>-->
+<!--         </xpath>-->
+<!--        </field>-->
+<!--     </record>-->
+
+
+
+
+<!--      <record id="purchase_vat_code" model="ir.ui.view">-->
+<!--        <field name="name">invoice_vat</field>-->
+<!--        <field name="model">purchase.order</field>-->
+<!--        <field name="inherit_id" ref="purchase.purchase_order_form"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//field[@name='taxes_id']" position="before">-->
+<!--                <field name="vat_code_id" domain="[('tax_scope','=','purchase')]"/>-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--     </record>-->
+
+
+<!--    <record model="ir.actions.act_window" id="bh_vat.action_window">-->
+<!--      <field name="name">VAT Code</field>-->
+<!--      <field name="res_model">vat.configuration</field>-->
+<!--            <field name="view_type">form</field>-->
+<!--            <field name="view_mode">tree,form</field>-->
+<!--&lt;!&ndash;            <field name="view_id" ref="customer_analysis.tree"/>&ndash;&gt;-->
+<!--            <field name="help" type="html">-->
+<!--              <p class="oe_view_nocontent_create">-->
+<!--                Create an VAT, a step of a new VAT.-->
+<!--              </p>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--     <record model="ir.actions.act_window" id="bh_vat.action_window_file_return">-->
+<!--      <field name="name">File Return</field>-->
+<!--      <field name="res_model">vat.return</field>-->
+<!--            <field name="view_type">form</field>-->
+<!--            <field name="view_mode">tree,form</field>-->
+<!--&lt;!&ndash;            <field name="view_id" ref="customer_analysis.tree"/>&ndash;&gt;-->
+<!--&lt;!&ndash;            <field name="help" type="html">&ndash;&gt;-->
+<!--&lt;!&ndash;              <p class="oe_view_nocontent_create">&ndash;&gt;-->
+<!--&lt;!&ndash;                Create an VAT, a step of a new VAT.&ndash;&gt;-->
+<!--&lt;!&ndash;              </p>&ndash;&gt;-->
+<!--&lt;!&ndash;        </field>&ndash;&gt;-->
+<!--    </record>-->
+
+
+
+<!--    <record model="ir.ui.view" id="customer_analysis.kanb">-->
+<!--      <field name="name">Servays.kanb</field>-->
+<!--      <field name="model">customer_analysis.anaylsis</field>-->
+<!--      <field name="arch" type="xml">-->
+<!--        <kanban>-->
+<!--&lt;!&ndash;              <field name="customer"/>&ndash;&gt;-->
+<!--&lt;!&ndash;              <field name="represent"/>&ndash;&gt;-->
+<!--&lt;!&ndash;              <field name="phone"/>&ndash;&gt;-->
+<!--&lt;!&ndash;              <field name="location"/>&ndash;&gt;-->
+<!--&lt;!&ndash;              <field name="position"/>&ndash;&gt;-->
+<!--&lt;!&ndash;              <field name="package"/>&ndash;&gt;-->
+<!--            <templates>-->
+<!--                <t t-name="kanban-box">-->
+<!--                <div class="oe_kanban_vignette">-->
+<!--&lt;!&ndash;                <img t-att-src="kanban_image('res.partner',&ndash;&gt;-->
+<!--&lt;!&ndash;                'image_medium', record.id.value)"&ndash;&gt;-->
+<!--&lt;!&ndash;                class="oe_kanban_image"/>&ndash;&gt;-->
+<!--                <div class="oe_kanban_details">-->
+<!--                &lt;!&ndash; Title and Data content &ndash;&gt;-->
+<!--                <h4><a type="open">-->
+<!--                <field name="customer" />-->
+<!--                </a></h4>-->
+<!--                <field name="represent" />-->
+<!--                <ul>-->
+<!--                <li><field name="phone" /></li>-->
+<!--                <li><field name="location" /></li>-->
+<!--                </ul>-->
+<!--&lt;!&ndash;                <field name="position"&ndash;&gt;-->
+<!--&lt;!&ndash;                widget="kanban_state_selection"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                <field name="package" widget="priority"/>&ndash;&gt;-->
+<!--                </div>-->
+<!--                </div>-->
+<!--                </t>-->
+<!--</templates>-->
+<!--        </kanban>-->
+<!--      </field>-->
+<!--    </record> -->
+<!--   -->
+<!--   -->
+
+<!-- <record id="partner_vat_confg" model="ir.ui.view">-->
+<!--        <field name="name">partner_vat</field>-->
+<!--        <field name="model">res.partner</field>-->
+<!--        <field name="inherit_id" ref="base.view_partner_form"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--         <xpath expr="//field[@name='vat']" position="before">-->
+<!--                <field name="x_tax_type"/>-->
+<!--                <field name="x_supply_place" attrs="{'invisible': [('x_tax_type', '=', 'notgcc')]}"/>-->
+<!--         </xpath>-->
+<!--        </field>-->
+<!--     </record>-->
+
+<!--      <record id="product_template_cargo" model="ir.ui.view">-->
+<!--        <field name="name">cargo_product</field>-->
+<!--        <field name="model">product.template</field>-->
+<!--        <field name="inherit_id" ref="product.product_template_form_view"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--         <xpath expr="//page[@name='general_information']" position="after">-->
+<!--                 <page string="Cargo Rating">-->
+<!--                     <field name="x_cargo_rate">-->
+<!--                         <tree string="Cargo Rating" editable="bottom">-->
+<!--                             <control>-->
+<!--                                 <create string="Add New Line"/>-->
+<!--                             </control>-->
+<!--                         <field name="city_id"/>-->
+<!--                         <field name="rate"/>-->
+<!--                         <field name="price"/>-->
+<!--                         <field name="weight"/>-->
+<!--                         <field name="cargo_product_id" invisible="1"/>-->
+<!--                         </tree>-->
+<!--                     </field>-->
+<!--                 </page>-->
+<!--         </xpath>-->
+<!--        </field>-->
+<!--     </record>-->
+
+<!--    &lt;!&ndash; Top menu item &ndash;&gt;-->
+
+<!--    <menuitem name="VAT" id="bh_vat.menu_root" parent="account.menu_finance"/>-->
+
+<!--    &lt;!&ndash; menu categories &ndash;&gt;-->
+
+<!--&lt;!&ndash; <menuitem name="Menu 1" id="customer_analysis.menu_1" parent="crm.crm_menu_pipeline"/> &ndash;&gt;-->
+<!--&lt;!&ndash;   <menuitem name="Menu 2" id="bh_vat.menu_2" parent="bh_vat.menu_1_list"/>&ndash;&gt;-->
+
+<!--    &lt;!&ndash; actions &ndash;&gt;-->
+
+<!--    <menuitem name="Vat Code" id="bh_vat.menu_1_list" parent="bh_vat.menu_root"-->
+<!--              action="bh_vat.action_window"/>-->
+
+<!--    <menuitem name="File Return" id="bh_vat.menu_2_list" parent="bh_vat.menu_root"-->
+<!--              action="bh_vat.action_window_file_return"/>-->
+   
+  </data>
+</odoo>
