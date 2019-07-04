@@ -1,0 +1,15 @@
+<odoo>
+    <data>
+
+        <record forcecreate="True" id="decimal_custom_dp2" model="decimal.precision">
+            <field name="name">Rounding Cash</field>
+            <field name="digits">4</field>
+        </record>
+
+        <record forcecreate="True" id="decimal_custom_dp3" model="decimal.precision">
+            <field name="name">Down Payment</field>
+            <field name="digits">4</field>
+        </record>
+
+    </data>
+</odoo>

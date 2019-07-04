@@ -4,6 +4,7 @@ from odoo import models, fields, api, _
 from odoo import exceptions
 from datetime import datetime
 from datetime import timedelta
+from odoo.addons import decimal_precision as dp
 import re
 
 # class StockMove(models.Model):
@@ -97,6 +98,7 @@ class Sales(models.Model):
     _description = 'Return Order'
 
     x_return_days = fields.Integer(string='N0. of Days')
+    x_prepared_by = fields.Many2one('res.user', string="Prepared By")
 
 
 class Stock(models.Model):
@@ -105,6 +107,18 @@ class Stock(models.Model):
 
     x_return = fields.Integer(related="sale_id.x_return_days")
     x_return_date = fields.Datetime(string='Return Date', compute="date_addition")
+    x_user_id = fields.Many2one('res.users', string='Current User', index=True, track_visibility='onchange', track_sequence=2, default=lambda self: self.env.user.id)
+    x_prepared_by = fields.Many2one('res.users', string='Prepared by')
+
+    @api.multi
+    def button_validate(self):
+        res = super(Stock, self).button_validate()
+        print(self.x_user_id)
+        for record in self:
+            record.update({
+                'x_prepared_by': record.x_user_id.id
+            })
+        return res
 
     def date_addition(self):
         for record in self:
@@ -121,3 +135,27 @@ class Product(models.Model):
     _description = 'Returnable Product'
 
     x_returnable = fields.Boolean(string="Returnable")
+
+
+class StockQu(models.Model):
+    _inherit = 'stock.quant'
+    _description = 'Return Filter'
+
+    x_returnable = fields.Boolean(string="Returnable", related="product_id.x_returnable")
+
+
+
+class CashRounding(models.Model):
+    _inherit = 'account.cash.rounding'
+    _description = 'Cash Rounding decimal'
+
+    rounding = fields.Float(string='Rounding Precision', required=True,
+                            help='Represent the non-zero value smallest coinage (for example, 0.05).', digits=dp.get_precision('Rounding Cash'))
+
+
+# class PaymentInv(models.TransientModel):
+#     _inherit = "sale.advance.payment.inv"
+#     _description = "Sales Advance Payment Invoice Decimal"
+#
+#     amount = fields.Float('Down Payment Amount', digits=dp.get_precision('Down Payment'),
+#                           help="The amount to be invoiced in advance, taxes excluded.")

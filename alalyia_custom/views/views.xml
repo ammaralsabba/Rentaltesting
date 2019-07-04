@@ -87,12 +87,13 @@
         <field name="arch" type="xml">
          <xpath expr="//field[@name='date_done']" position="after">
                 <field name="x_return"/>
-               <field name="x_return_date"/>
+                <field name="x_return_date"/>
+                <field name="x_prepared_by"/>
          </xpath>
         </field>
      </record>
 
-      <record id="return_days_stock" model="ir.ui.view">
+      <record id="return_stock" model="ir.ui.view">
         <field name="name">number of return days in stock</field>
         <field name="model">stock.move.line</field>
         <field name="inherit_id" ref="stock.view_move_line_tree"/>
@@ -114,6 +115,17 @@
                     <field name="x_returnable"/>
                     <label for="x_returnable"/>
                </div>
+         </xpath>
+        </field>
+     </record>
+
+       <record id="return_quant" model="ir.ui.view">
+        <field name="name">Returnable Product Filter</field>
+        <field name="model">stock.quant</field>
+        <field name="inherit_id" ref="stock.view_stock_quant_form"/>
+        <field name="arch" type="xml">
+         <xpath expr="//field[@name='product_id']" position="after">
+               <field name="x_returnable"/>
          </xpath>
         </field>
      </record>
