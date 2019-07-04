@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+     
+        <template id="demo_print_quotation" inherit_id="sale.report_saleorder_document">
+         <xpath expr="//table[@class='table table-sm']//thead//tr//th[1]" position="before"> 
+                      <div>  <th class="text-left">Sr#</th> </div>
+         </xpath>
+         <xpath expr="//table[@class='table table-sm']//tbody//td[1]" position="before"> 
+	      <td><span t-field="line.serial_no"/></td>
+          </xpath>
+      </template> 
+       
+    </data>
+</odoo>
